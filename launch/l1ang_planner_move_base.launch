@@ -1,0 +1,28 @@
+<launch>
+  <!-- 代价地图配置默认沿用原导航包，换机器时用 arg 覆盖即可 -->
+  <arg name="costmap_common_params" default="/home/l1ang_ws/src/l1ang/nav_lidar/costmap_common_params.yaml" />
+  <arg name="global_costmap_params" default="/home/l1ang_ws/src/l1ang/nav_lidar/global_costmap_params.yaml" />
+  <arg name="local_costmap_params"  default="/home/l1ang_ws/src/l1ang/nav_lidar/local_costmap_params.yaml" />
+
+  <!-- move_base -->
+  <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <rosparam file="$(arg costmap_common_params)" command="load" ns="global_costmap" />
+    <rosparam file="$(arg costmap_common_params)" command="load" ns="local_costmap" />
+    <rosparam file="$(arg global_costmap_params)" command="load" />
+    <rosparam file="$(arg local_costmap_params)" command="load" />
+
+    <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+    <!-- 用自己的折线跟踪规划器替代 dwa_local_planner/DWAPlannerROS -->
+    <param name="base_local_planner" value="l1ang_planner/L1angLocalPlanner" />
+    <rosparam file="$(find l1ang_planner)/config/l1ang_local_planner_params.yaml" command="load" />
+
+    <!-- 全局规划 -->
+    <param name="planner_frequency" value="1.0" />
+    <param name="planner_patience" value="5.0" />
+
+    <!-- 局部控制 -->
+    <param name="controller_frequency" value="10.0" />
+    <param name="controller_patience" value="3.0" />
+  </node>
+</launch>
+

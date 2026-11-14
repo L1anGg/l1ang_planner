@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>l1ang_planner</name>
+  <version>1.0.0</version>
+  <description>
+    move_base 局部规划插件：对全局路径做 Douglas-Peucker 抽稀后按折线跟踪，
+    朝向对齐再直行，适合转向不灵敏的差速底盘。
+  </description>
+
+  <maintainer email="2563631867@qq.com">L1ang</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nav_core</depend>
+  <depend>pluginlib</depend>
+  <depend>costmap_2d</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2_geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>geometry_msgs</depend>
+
+  <exec_depend>move_base</exec_depend>
+
+  <!-- 把 L1angLocalPlanner 注册成 move_base 可加载的局部规划插件 -->
+  <export>
+    <nav_core plugin="${prefix}/plugin.xml"/>
+  </export>
+</package>
